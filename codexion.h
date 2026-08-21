@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/22 00:33:39 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/22 00:36:57 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CODEXION_H
@@ -111,5 +111,11 @@ int			can_take(t_dongle *d, t_request *req, long now);
 int			dongle_acquire(t_coder *c, t_dongle *d);
 void		dongle_release(t_dongle *d, t_sim *sim);
 void		assign_dongles(t_sim *sim, int i);
+
+// CODER
+void		precise_sleep(t_sim *sim, long ms);
+int			do_compile(t_coder *c);
+void		*lone_coder(t_coder *c);
+void		*coder_routine(void *arg);
 
 #endif

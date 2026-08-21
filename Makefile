@@ -6,7 +6,7 @@
 #    By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/21 16:05:50 by mide-fre          #+#    #+#              #
-#    Updated: 2026/08/22 00:29:20 by mide-fre         ###   ########.fr        #
+#    Updated: 2026/08/22 00:37:18 by mide-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME = codexion
 SRCS = codexion.c \
 	heap.c heap_ops.c \
 	time.c log.c \
-	dongle_utils.c dongle.c
+	dongle_utils.c dongle.c \
+	coder.c
 
 HDRS = codexion.h
 
