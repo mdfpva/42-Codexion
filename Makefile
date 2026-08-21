@@ -6,7 +6,7 @@
 #    By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/21 16:05:50 by mide-fre          #+#    #+#              #
-#    Updated: 2026/08/22 00:22:09 by mide-fre         ###   ########.fr        #
+#    Updated: 2026/08/22 00:29:20 by mide-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) -c $< -o $@
