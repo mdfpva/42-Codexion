@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/21 23:54:32 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/22 00:23:48 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CODEXION_H
@@ -93,5 +93,23 @@ void		heap_down(t_heap *h, int i);
 int			heap_push(t_heap *h, t_request *r);
 t_request	*heap_pop(t_heap *h);
 void		heap_remove(t_heap *h, t_request *r);
+
+// TIME
+long	now_ms(void);
+long	elapsed(t_sim *sim);
+int		sim_stopped(t_sim *sim);
+long	next_seq(t_sim *sim);
+long	coder_deadline(t_coder *c);
+
+// LOG
+void	log_state(t_coder *c, char *msg);
+
+// DONGLE
+void	ms_to_timespec(long target_ms, struct timespec *ts);
+long	wake_time(t_dongle *d, long now);
+int		can_take(t_dongle *d, t_request *req, long now);
+int		dongle_acquire(t_coder *c, t_dongle *d);
+void	dongle_release(t_dongle *d, t_sim *sim);
+void	assign_dongles(t_sim *sim, int i);
 
 #endif
