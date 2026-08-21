@@ -6,9 +6,11 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 23:50:11 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/21 23:50:27 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/21 23:56:48 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "codexion.h"
 
 void	heap_up(t_heap *h, int i)
 {

@@ -6,13 +6,13 @@
 #    By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/21 16:05:50 by mide-fre          #+#    #+#              #
-#    Updated: 2026/08/21 18:00:00 by mide-fre         ###   ########.fr        #
+#    Updated: 2026/08/21 23:51:52 by mide-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = codexion
 
-SRCS = codexion.c
+SRCS = codexion.c heap.c heap_ops.c
 HDRS = codexion.h
 
 OBJS = $(SRCS:.c=.o)
