@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:27:01 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 15:36:01 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void		log_state(t_coder *c, char *msg);
 void		ms_to_timespec(long target_ms, struct timespec *ts);
 long		wake_time(t_dongle *d, long now);
 int			can_take(t_dongle *d, t_request *req, long now);
+long		pair_wake(t_coder *c, long now);
+int			pair_ready(t_coder *c, t_request *r1, t_request *r2, long now);
 void		request_init(t_coder *c, t_request *req);
 int			wait_turn(t_coder *c, t_dongle *d, t_request *req);
 int			dongle_acquire(t_coder *c, t_dongle *d);
