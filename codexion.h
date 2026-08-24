@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 17:24:52 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 19:02:18 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # define FIFO 0
 # define EDF 1
 
-typedef struct s_sim	t_sim;
+typedef struct s_coder		t_coder;
+typedef struct s_sim		t_sim;
 
 typedef struct s_request
 {
@@ -31,6 +32,7 @@ typedef struct s_request
 	long	deadline;
 	long	seq;
 	int		idx;
+	t_coder	*owner;
 }	t_request;
 
 typedef struct s_heap
@@ -46,8 +48,6 @@ typedef struct s_dongle
 	int				id;
 	int				available;
 	long			available_at;
-	pthread_mutex_t	lock;
-	pthread_cond_t	cond;
 	t_heap			queue;
 }	t_dongle;
 
@@ -79,6 +79,8 @@ struct s_sim
 	pthread_mutex_t	stop_lock;
 	pthread_mutex_t	seq_lock;
 	pthread_mutex_t	log_lock;
+	pthread_mutex_t	arb_lock;
+	pthread_cond_t	arb_cond;
 	t_dongle		*dongles;
 	t_coder			*coders;
 };
@@ -108,14 +110,18 @@ void		log_state(t_coder *c, char *msg);
 // DONGLE
 void		ms_to_timespec(long target_ms, struct timespec *ts);
 long		wake_time(t_dongle *d, long now);
-int			can_take(t_dongle *d, t_request *req, long now);
 long		pair_wake(t_coder *c, long now);
-int			pair_ready(t_coder *c, t_request *r1, t_request *r2, long now);
 void		request_init(t_coder *c, t_request *req);
 int			wait_pair(t_coder *c, t_request *r1, t_request *r2);
 int			acquire_pair(t_coder *c, t_request *r1, t_request *r2);
 int			dongle_acquire(t_coder *c);
 void		dongle_release(t_dongle *d, t_sim *sim);
+int			dongle_free(t_dongle *d, long now);
+int			pair_free(t_coder *c, long now);
+
+// ARB
+int			is_best(t_heap *h, t_request *req, long now);
+int			can_take_pair(t_coder *c, t_request *r1, t_request *r2, long now);
 
 // CODER
 void		precise_sleep(t_sim *sim, long ms);

@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/22 00:16:53 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 17:23:39 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 19:05:13 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	request_init(t_coder *c, t_request *req)
 	req->coder_id = c->id;
 	req->seq = next_seq(c->sim);
 	req->deadline = coder_deadline(c);
+	req->owner = c;
 	req->idx = -1;
 }
 
@@ -26,12 +27,10 @@ int	wait_pair(t_coder *c, t_request *r1, t_request *r2)
 	long			now;
 
 	now = now_ms();
-	while (!sim_stopped(c->sim) && !pair_ready(c, r1, r2, now))
+	while (!sim_stopped(c->sim) && !can_take_pair(c, r1, r2, now))
 	{
 		ms_to_timespec(pair_wake(c, now), &ts);
-		pthread_mutex_unlock(&c->second->lock);
-		pthread_cond_timedwait(&c->first->cond, &c->first->lock, &ts);
-		pthread_mutex_lock(&c->second->lock);
+		pthread_cond_timedwait(&c->sim->arb_cond, &c->sim->arb_lock, &ts);
 		now = now_ms();
 	}
 	return (!sim_stopped(c->sim));
@@ -39,27 +38,22 @@ int	wait_pair(t_coder *c, t_request *r1, t_request *r2)
 
 int	acquire_pair(t_coder *c, t_request *r1, t_request *r2)
 {
-	pthread_mutex_lock(&c->first->lock);
-	pthread_mutex_lock(&c->second->lock);
+	int	ok;
+
+	pthread_mutex_lock(&c->sim->arb_lock);
 	heap_push(&c->first->queue, r1);
 	heap_push(&c->second->queue, r2);
-	pthread_cond_broadcast(&c->first->cond);
-	pthread_cond_broadcast(&c->second->cond);
-	if (!wait_pair(c, r1, r2))
+	pthread_cond_broadcast(&c->sim->arb_cond);
+	ok = wait_pair(c, r1, r2);
+	heap_remove(&c->first->queue, r1);
+	heap_remove(&c->second->queue, r2);
+	if (ok)
 	{
-		heap_remove(&c->first->queue, r1);
-		heap_remove(&c->second->queue, r2);
-		pthread_mutex_unlock(&c->second->lock);
-		pthread_mutex_unlock(&c->first->lock);
-		return (0);
+		c->first->available = 0;
+		c->second->available = 0;
 	}
-	heap_pop(&c->first->queue);
-	heap_pop(&c->second->queue);
-	c->first->available = 0;
-	c->second->available = 0;
-	pthread_mutex_unlock(&c->second->lock);
-	pthread_mutex_unlock(&c->first->lock);
-	return (1);
+	pthread_mutex_unlock(&c->sim->arb_lock);
+	return (ok);
 }
 
 int	dongle_acquire(t_coder *c)
@@ -78,9 +72,9 @@ int	dongle_acquire(t_coder *c)
 
 void	dongle_release(t_dongle *d, t_sim *sim)
 {
-	pthread_mutex_lock(&d->lock);
+	pthread_mutex_lock(&sim->arb_lock);
 	d->available = 1;
 	d->available_at = now_ms() + sim->cooldown;
-	pthread_cond_broadcast(&d->cond);
-	pthread_mutex_unlock(&d->lock);
+	pthread_cond_broadcast(&sim->arb_cond);
+	pthread_mutex_unlock(&sim->arb_lock);
 }

@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/22 00:35:45 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 17:26:20 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 18:21:02 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	precise_sleep(t_sim *sim, long ms)
 
 void	take_single(t_coder *c)
 {
-	pthread_mutex_lock(&c->first->lock);
+	pthread_mutex_lock(&c->sim->arb_lock);
 	c->first->available = 0;
-	pthread_mutex_unlock(&c->first->lock);
+	pthread_mutex_unlock(&c->sim->arb_lock);
 	log_state(c, "has taken a dongle");
 }
 

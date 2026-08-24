@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 14:50:51 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 14:51:15 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 19:03:12 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,12 @@
 
 void	stop_sim(t_sim *sim)
 {
-	int	i;
-
 	pthread_mutex_lock(&sim->stop_lock);
 	sim->stop = 1;
 	pthread_mutex_unlock(&sim->stop_lock);
-	i = 0;
-	while (i < sim->n_coders)
-	{
-		pthread_mutex_lock(&sim->dongles[i].lock);
-		pthread_cond_broadcast(&sim->dongles[i].cond);
-		pthread_mutex_unlock(&sim->dongles[i].lock);
-		i++;
-	}
+	pthread_mutex_lock(&sim->arb_lock);
+	pthread_cond_broadcast(&sim->arb_cond);
+	pthread_mutex_unlock(&sim->arb_lock);
 }
 
 int	check_burnout(t_sim *sim, int i)

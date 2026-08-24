@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/22 00:16:13 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:31:48 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 19:04:29 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@ long	wake_time(t_dongle *d, long now)
 	return (now + 1);
 }
 
-int	can_take(t_dongle *d, t_request *req, long now)
+int	dongle_free(t_dongle *d, long now)
 {
-	return (d->available && now >= d->available_at
-		&& heap_peek(&d->queue) == req);
+	return (d->available && now >= d->available_at);
+}
+
+int	pair_free(t_coder *c, long now)
+{
+	return (dongle_free(c->first, now) && dongle_free(c->second, now));
 }
 
 long	pair_wake(t_coder *c, long now)
@@ -41,9 +45,4 @@ long	pair_wake(t_coder *c, long now)
 	if (w1 < w2)
 		return (w1);
 	return (w2);
-}
-
-int	pair_ready(t_coder *c, t_request *r1, t_request *r2, long now)
-{
-	return (can_take(c->first, r1, now) && can_take(c->second, r2, now));
 }

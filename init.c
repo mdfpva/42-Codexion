@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 15:07:42 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:08:08 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 19:00:48 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	init_dongles(t_sim *sim)
 	{
 		sim->dongles[i].id = i;
 		sim->dongles[i].available = 1;
-		pthread_mutex_init(&sim->dongles[i].lock, NULL);
-		pthread_cond_init(&sim->dongles[i].cond, NULL);
 		if (!heap_init(&sim->dongles[i].queue, sim->n_coders, sim->policy))
 			return (0);
 		i++;
@@ -78,6 +76,8 @@ int	init_sim(t_sim *sim)
 	pthread_mutex_init(&sim->stop_lock, NULL);
 	pthread_mutex_init(&sim->seq_lock, NULL);
 	pthread_mutex_init(&sim->log_lock, NULL);
+	pthread_mutex_init(&sim->arb_lock, NULL);
+	pthread_cond_init(&sim->arb_cond, NULL);
 	if (!init_dongles(sim))
 		return (0);
 	if (!init_coders(sim))
