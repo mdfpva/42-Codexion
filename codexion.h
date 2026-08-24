@@ -6,9 +6,10 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:10:01 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 15:14:34 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef CODEXION_H
 # define CODEXION_H
 
@@ -138,5 +139,12 @@ void		assign_dongles(t_sim *sim, int i);
 int			init_dongles(t_sim *sim);
 int			init_coders(t_sim *sim);
 int			init_sim(t_sim *sim);
+
+// RUN
+// RUN
+int			start_coders(t_sim *sim);
+void		join_coders(t_sim *sim, int count);
+void		prime_deadlines(t_sim *sim);
+int			run_sim(t_sim *sim);
 
 #endif
