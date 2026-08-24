@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:05:20 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 15:10:01 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CODEXION_H
@@ -132,5 +132,11 @@ int			parse_long(char *s, long *out);
 int			parse_policy(t_sim *sim, char *s);
 int			parse_times(t_sim *sim, char **av);
 int			parse_args(t_sim *sim, int ac, char **av);
+
+// INIT
+void		assign_dongles(t_sim *sim, int i);
+int			init_dongles(t_sim *sim);
+int			init_coders(t_sim *sim);
+int			init_sim(t_sim *sim);
 
 #endif
