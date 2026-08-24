@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/22 00:35:45 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/22 00:36:09 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 15:38:33 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ void	precise_sleep(t_sim *sim, long ms)
 	}
 }
 
+void	take_single(t_coder *c)
+{
+	pthread_mutex_lock(&c->first->lock);
+	c->first->available = 0;
+	pthread_mutex_unlock(&c->first->lock);
+	log_state(c, "has taken a dongle");
+}
+
 int	do_compile(t_coder *c)
 {
-	if (!dongle_acquire(c, c->first))
+	if (!dongle_acquire(c))
 		return (0);
-	if (!dongle_acquire(c, c->second))
-	{
-		dongle_release(c->first, c->sim);
-		return (0);
-	}
 	pthread_mutex_lock(&c->state_lock);
 	c->last_compile_start = now_ms();
 	pthread_mutex_unlock(&c->state_lock);
