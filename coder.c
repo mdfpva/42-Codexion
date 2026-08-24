@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/22 00:35:45 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:38:33 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 17:26:20 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ int	do_compile(t_coder *c)
 
 void	*lone_coder(t_coder *c)
 {
-	dongle_acquire(c, c->first);
+	take_single(c);
 	while (!sim_stopped(c->sim))
 		usleep(200);
-	dongle_release(c->first, c->sim);
 	return (NULL);
 }
 
