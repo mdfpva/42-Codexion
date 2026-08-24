@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 14:49:57 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 14:52:23 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CODEXION_H
@@ -119,5 +119,11 @@ void		precise_sleep(t_sim *sim, long ms);
 int			do_compile(t_coder *c);
 void		*lone_coder(t_coder *c);
 void		*coder_routine(void *arg);
+
+// MONITOR
+void		stop_sim(t_sim *sim);
+int			check_burnout(t_sim *sim, int i);
+int			all_done(t_sim *sim);
+void		*monitor_routine(void *arg);
 
 #endif
