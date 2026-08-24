@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/22 00:16:53 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 14:49:06 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 15:26:36 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,4 @@ void	dongle_release(t_dongle *d, t_sim *sim)
 	d->available_at = now_ms() + sim->cooldown;
 	pthread_cond_broadcast(&d->cond);
 	pthread_mutex_unlock(&d->lock);
-}
-
-void	assign_dongles(t_sim *sim, int i)
-{
-	t_dongle	*left;
-	t_dongle	*right;
-
-	left = &sim->dongles[i];
-	right = &sim->dongles[(i + 1) % sim->n_coders];
-	if (left->id < right->id)
-	{
-		sim->coders[i].first = left;
-		sim->coders[i].second = right;
-	}
-	else
-	{
-		sim->coders[i].first = right;
-		sim->coders[i].second = left;
-	}
 }
