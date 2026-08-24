@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 14:52:23 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 15:00:54 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CODEXION_H
@@ -125,5 +125,12 @@ void		stop_sim(t_sim *sim);
 int			check_burnout(t_sim *sim, int i);
 int			all_done(t_sim *sim);
 void		*monitor_routine(void *arg);
+
+// PARSE
+int	usage(void);
+int	parse_long(char *s, long *out);
+int	parse_policy(t_sim *sim, char *s);
+int	parse_times(t_sim *sim, char **av);
+int	parse_args(t_sim *sim, int ac, char **av);
 
 #endif
