@@ -6,7 +6,7 @@
 #    By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/08/21 16:05:50 by mide-fre          #+#    #+#              #
-#    Updated: 2026/08/24 15:14:52 by mide-fre         ###   ########.fr        #
+#    Updated: 2026/08/24 15:18:43 by mide-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS = codexion.c \
 	monitor.c \
 	parse.c \
 	init.c \
-	run.c
+	run.c \
+	cleanup.c
 
 HDRS = codexion.h
 

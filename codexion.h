@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:14:34 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 15:18:16 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,10 @@ int			start_coders(t_sim *sim);
 void		join_coders(t_sim *sim, int count);
 void		prime_deadlines(t_sim *sim);
 int			run_sim(t_sim *sim);
+
+// CLEANUP
+void		cleanup_dongles(t_sim *sim);
+void		cleanup_coders(t_sim *sim);
+void		cleanup_sim(t_sim *sim);
 
 #endif
