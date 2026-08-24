@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 15:41:48 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/24 17:24:52 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,9 @@ int			can_take(t_dongle *d, t_request *req, long now);
 long		pair_wake(t_coder *c, long now);
 int			pair_ready(t_coder *c, t_request *r1, t_request *r2, long now);
 void		request_init(t_coder *c, t_request *req);
-int			wait_turn(t_coder *c, t_dongle *d, t_request *req);
-int			dongle_acquire(t_coder *c, t_dongle *d);
+int			wait_pair(t_coder *c, t_request *r1, t_request *r2);
+int			acquire_pair(t_coder *c, t_request *r1, t_request *r2);
+int			dongle_acquire(t_coder *c);
 void		dongle_release(t_dongle *d, t_sim *sim);
 
 // CODER
@@ -142,7 +143,6 @@ int			init_dongles(t_sim *sim);
 int			init_coders(t_sim *sim);
 int			init_sim(t_sim *sim);
 
-// RUN
 // RUN
 int			start_coders(t_sim *sim);
 void		join_coders(t_sim *sim, int count);
