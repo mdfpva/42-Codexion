@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/21 15:46:35 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 19:02:18 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/25 11:41:54 by mide-fe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void		*coder_routine(void *arg);
 void		stop_sim(t_sim *sim);
 int			check_burnout(t_sim *sim, int i);
 int			all_done(t_sim *sim);
+void		monitor_wait(t_sim *sim, long *next);
 void		*monitor_routine(void *arg);
 
 // PARSE
