@@ -6,7 +6,7 @@
 /*   By: mide-fre <mide-fre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 14:50:51 by mide-fre          #+#    #+#             */
-/*   Updated: 2026/08/24 19:03:12 by mide-fre         ###   ########.fr       */
+/*   Updated: 2026/08/25 11:22:51 by mide-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,62 @@ int	all_done(t_sim *sim)
 	return (1);
 }
 
+void	monitor_wait(t_sim *sim, long *next)
+{
+	struct timespec	ts;
+
+	*next += 1;
+	ms_to_timespec(*next, &ts);
+	pthread_mutex_lock(&sim->arb_lock);
+	pthread_cond_timedwait(&sim->arb_cond, &sim->arb_lock, &ts);
+	pthread_mutex_unlock(&sim->arb_lock);
+}
+
+long	now_mono(void)
+{
+	struct timespec	ts;
+
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ((long)ts.tv_sec * 1000 + ts.tv_nsec / 1000000);
+}
+
 void	*monitor_routine(void *arg)
 {
 	t_sim	*sim;
 	int		i;
+	long	t0;
+	long	m0;
+	long	prev;
+	long	next;
 
 	sim = (t_sim *)arg;
+	prev = now_ms();
+	next = now_ms();
 	while (!sim_stopped(sim))
 	{
+		if (now_ms() - prev > 10)
+			fprintf(stderr, "GAP %ld at %ld\n",
+				now_ms() - prev, elapsed(sim));
 		i = 0;
 		while (i < sim->n_coders)
 		{
+			t0 = now_ms();
 			if (check_burnout(sim, i))
 				return (NULL);
+			if (now_ms() - t0 > 5)
+				fprintf(stderr, "SLOW check %d: %ld at %ld\n",
+					i + 1, now_ms() - t0, elapsed(sim));
 			i++;
 		}
 		if (all_done(sim))
 			return (stop_sim(sim), NULL);
-		usleep(500);
+		t0 = now_ms();
+		m0 = now_mono();
+		monitor_wait(sim, &next);
+		if (now_ms() - t0 > 10)
+			fprintf(stderr, "SLOW wall=%ld mono=%ld at %ld\n",
+				now_ms() - t0, now_mono() -m0, elapsed(sim));
+		prev = now_ms();
 	}
 	return (NULL);
 }
